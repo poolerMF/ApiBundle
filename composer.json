@@ -1,0 +1,21 @@
+{
+    "name": "plr/api-bundle",
+    "description": "Provide API calls for Symfony2 project. Result is shown in debug toolbar.",
+    "keywords": ["api", "guzzle", "symfony", "profiler", "request", "debug"],
+    "type": "symfony-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ing. Matúš Ferko"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0",
+        "guzzle/guzzle": "3.*"
+
+    },
+    "autoload": {
+        "psr-0": { "Plr\\Bundle\\ApiBundle": "" }
+    },
+    "target-dir": "Plr/Bundle/ApiBundle"
+}

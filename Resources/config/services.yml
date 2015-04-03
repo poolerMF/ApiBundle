@@ -1,0 +1,11 @@
+parameters:
+    plr_api.api_plugin.class: Plr\Bundle\ApiBundle\Plugin\ApiPlugin
+    plr_api.data_collector.class: Plr\Bundle\ApiBundle\DataCollector\ApiDataCollector
+    plr_api.data_collector.template: PlrApiBundle:Collector:index
+
+services:
+    inject_js:
+        class: Plr\Bundle\ApiBundle\EventListener\WebDebugToolbarListener
+        arguments: [@twig]
+        tags:
+            - { name: kernel.event_subscriber }

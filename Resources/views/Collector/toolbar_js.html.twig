@@ -1,0 +1,88 @@
+<script>
+
+    function getCookie(cname) {
+        var name = cname + "=";
+        var ca = document.cookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ')
+                c = c.substring(1);
+            if (c.indexOf(name) != -1)
+                return c.substring(name.length, c.length);
+        }
+        return "";
+    }
+
+    var ppp = XMLHttpRequest.prototype.open;
+
+    XMLHttpRequest.prototype.open = function (method, url, async, user, pass) {
+        var self = this;
+
+        this.addEventListener("readystatechange", function () {
+            var className = 'plr_api_toolbar sf-toolbar-ajax-requests sf-toolbar-status';
+            if(document.getElementsByClassName("plr_api_toolbar").length) {
+                document.getElementsByClassName("plr_api_toolbar")[0].className = className+ " sf-ajax-request-loading";
+            }
+
+            if (self.readyState == 4) {
+                var token = self.getResponseHeader("X-Debug-Token");
+
+                if (token != null && token != undefined) {
+                    var toolbar = document.getElementsByClassName("plr_api_toolbar")[0];
+                    var toolbar_time = document.getElementsByClassName("plr_api_total_time")[0];
+
+                    var decoded = decodeURIComponent(getCookie("plr_api"));
+                    var rows = JSON.parse(decoded);
+                    for(var x=0;x<rows.length;x++) {
+                        var response = decodeURIComponent(rows[x]["response"]);
+                        try {
+                            response = JSON.parse(response);
+                            response = JSON.stringify(response, null, '\t').replace(/	/g, "     ");
+                        } catch(error) {
+
+                        }
+                        var request = decodeURIComponent(rows[x]["request"]);
+                        try {
+                            request = JSON.parse(request);
+                            request = JSON.stringify(request, null, '\t').replace(/	/g, "     ");
+                        } catch(error) {
+
+                        }
+                        var header = decodeURIComponent(rows[x]["header"]);
+                        var error = rows[x]["error"];
+
+                        var count = document.getElementsByClassName("plr_api").length+1;
+                        var table = document.getElementsByClassName("plr_api_default")[0].cloneNode(true);
+
+                        table.className = "plr_api";
+                        table.removeAttribute("style");
+                        table.getElementsByClassName("row_index")[0].textContent = count;
+                        table.getElementsByClassName("row_header")[0].textContent = header;
+                        table.getElementsByClassName("row_request")[0].textContent = request;
+                        table.getElementsByClassName("row_response")[0].textContent = response;
+                        document.getElementsByClassName("plr_api_default")[0].parentNode.appendChild(table);
+
+                        if(error) {
+                            className += ' sf-toolbar-status-red';
+                        } else {
+                            className += ' sf-toolbar-status-green';
+                        }
+                        toolbar.textContent = count;
+                        toolbar.className = className;
+
+                        var ms = parseInt(toolbar_time.getAttribute("data-ms"));
+                        ms+= rows[x]["total_time"]*1000;
+
+                        var nextTime = ms > 1000 ? Math.round(ms/1000*100)/100 + " s" : parseInt(ms) + " ms";
+
+                        toolbar_time.textContent = nextTime;
+                        toolbar_time.setAttribute("data-ms", parseInt(ms));
+                    }
+                }
+            }
+        }, false);
+
+        ppp.apply(this, Array.prototype.slice.call(arguments));
+    };
+
+</script>

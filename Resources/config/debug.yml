@@ -1,0 +1,9 @@
+services:
+    plr_api.api_plugin:
+        class: %plr_api.api_plugin.class%
+
+    data_collector.plr_api:
+        class: %plr_api.data_collector.class%
+        arguments: [@playbloom_guzzle.client.plugin.profiler]
+        tags:
+            - { name: data_collector, template: %plr_api.data_collector.template%, id:"plr_api" }
