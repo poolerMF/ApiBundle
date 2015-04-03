@@ -7,7 +7,7 @@ This bundle is extension of [playbloom/guzzle-bundle](https://github.com/ludofle
 ## Installation
 
 ``` bash
-$ php composer.phar require plr/api-bundle "1.0.0"
+$ php composer.phar require plr/api-bundle "1.*"
 ```
 
 ## Enable the Bundle
