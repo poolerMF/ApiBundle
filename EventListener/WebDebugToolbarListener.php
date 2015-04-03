@@ -23,10 +23,6 @@ class WebDebugToolbarListener implements EventSubscriberInterface {
             return;
         }
 
-        if (!$event->isMasterRequest()) {
-            return;
-        }
-
         if (!$response->headers->has('X-Debug-Token')
             || $response->isRedirection()
             || ($response->headers->has('Content-Type') && false === strpos($response->headers->get('Content-Type'), 'html'))
