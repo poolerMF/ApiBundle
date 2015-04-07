@@ -19,7 +19,8 @@ public function registerBundles()
 {
    $bundles = array(
        // ...
-       new Plr\ApiBundle\PlrApiBundle(),
+       new Playbloom\Bundle\GuzzleBundle\PlaybloomGuzzleBundle();
+       new Plr\Bundle\ApiBundle\PlrApiBundle(),
    );
 }
 ```
@@ -31,10 +32,8 @@ plr_api:
         log: true
         baseUrl: "http://www.example.com"
         parameters:
-            jsonrpc:
-                value: "2.0"
-            custom_parameter:
-                value: "11"
+            jsonrpc: "2.0"
+            custom_parameter: "11"
             ...
         user_agent: "Plr API"
         curl_options:
