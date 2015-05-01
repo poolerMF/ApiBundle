@@ -25,6 +25,7 @@ class ApiPlugin {
 
         $postData = $this->setData($method, $params, $url);
         $this->setCurlOptions();
+        $logger = $this->container->get("logger");
 
         try {
 
@@ -40,14 +41,15 @@ class ApiPlugin {
                 try {
                     $response = json_decode($response, true);
                 } catch (\Exception $ee) {
-
+                    $logger = $this->container->get("logger");
+                    $logger->error($ee->getMessage());
                 }
 
                 $this->response = $response;
             });
             $request->send();
         } catch (\Exception $e) {
-
+            $logger->error($e->getMessage());
         }
 
         if ($this->container->get("kernel")->getEnvironment() == "dev") {
@@ -74,7 +76,9 @@ class ApiPlugin {
                 $return[] = $a;
             }
 
-            setcookie("plr_api", json_encode($return), time() + (15), "/");
+            if(strlen(json_encode($return)) < 100000){
+                setcookie("plr_api", json_encode($return), time() + (15), "/");
+            }
 
             if ($this->config["log"]) {
                 $logger = $this->container->get("logger");
