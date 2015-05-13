@@ -37,12 +37,18 @@ class ApiPlugin {
 
             $request->getEventDispatcher()->addListener('request.complete', function (Event $e) {
                 $response = $e["response"]->getBody(true);
+                $default = $response;
 
+                $logger = $this->container->get("logger");
                 try {
                     $response = json_decode($response, true);
                 } catch (\Exception $ee) {
                     $logger = $this->container->get("logger");
                     $logger->error($ee->getMessage());
+                }
+
+                if($response == null && $default!= "") {
+                    $logger->error("Error parsing: ".$default);
                 }
 
                 $this->response = $response;
