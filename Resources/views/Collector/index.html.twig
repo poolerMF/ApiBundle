@@ -21,6 +21,37 @@
 
 
     {% set text %}
+
+        <style>
+            table.plr_api {
+                background: none;
+                margin-top: 15px;
+                margin-right: 15px;
+            }
+
+            table.plr_api tr td {
+                padding-left: 5px;
+                padding-right: 5px;
+                border: 1px solid rgb(208, 219, 179);
+            }
+
+            table.plr_api tr:first-child td {
+                background-color: rgb(241, 247, 226);
+            }
+
+            table.plr_api tr td:first-child {
+                background-color: rgb(241, 247, 226);
+            }
+
+            table.plr_api pre {
+                white-space: pre;
+                font-size: 10px;
+                line-height: 16px;
+                cursor: text;
+                margin: 0px;
+            }
+        </style>
+    
         {% if collector.calls|length>0 %}
             <div class="sf-toolbar-info-piece">
                 {% if collector.calls|length==1 %}
@@ -30,36 +61,6 @@
                 {% endif %}
                 <b>API Requests</b> <span>{{ count }}</span>
             </div>
-
-            <style>
-                table.plr_api {
-                    background: none;
-                    margin-top: 15px;
-                    margin-right: 15px;
-                }
-
-                table.plr_api tr td {
-                    padding-left: 5px;
-                    padding-right: 5px;
-                    border: 1px solid rgb(208, 219, 179);
-                }
-
-                table.plr_api tr:first-child td {
-                    background-color: rgb(241, 247, 226);
-                }
-
-                table.plr_api tr td:first-child {
-                    background-color: rgb(241, 247, 226);
-                }
-
-                table.plr_api pre {
-                    white-space: pre;
-                    font-size: 10px;
-                    line-height: 16px;
-                    cursor: text;
-                    margin: 0px;
-                }
-            </style>
 
 
             {% include 'PlrApiBundle:Collector:toolbar.html.twig' with { 'calls': collector.calls } %}
