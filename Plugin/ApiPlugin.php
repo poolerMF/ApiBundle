@@ -103,12 +103,9 @@ class ApiPlugin {
 
         $postData = [];
         $postData["method"] = $method;
-
-        if ($params) {
-            $postData["params"] = $params;
-        }
-
+        $postData["params"] = $params;
         $postData["id"] = (string) time();
+
         foreach ($defaultParameters as $key => $value) {
             $postData[$key] = (string) $value;
         }
